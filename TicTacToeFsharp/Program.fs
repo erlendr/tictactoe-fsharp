@@ -15,9 +15,15 @@ let HasFilledRow element gameboard boardsize =
     |> Array.map (fun x -> GetRow x gameboard |> CountElement element = boardsize)
     |> Array.contains true
 
+let HasFilledColumn element gameboard boardsize =
+    [|0..boardsize-1|]
+    |> Array.map (fun x -> GetColumn x gameboard |> CountElement element = boardsize)
+    |> Array.contains true
+
+
 let PrintGameboard gameboard boardsize =
     [|0..boardsize-1|]
-    |> Array.map (fun x -> 
+    |> Array.iter (fun x -> 
         GetRow x gameboard
         |> Array.iteri(fun i y -> 
             match i = boardsize-1 with
@@ -30,15 +36,12 @@ let PrintGameboard gameboard boardsize =
 let main argv =
     let boardsize = 3 
     let gameboard = CreateGameboard boardsize
-    gameboard.[0,0] <- "X";
-    gameboard.[0,1] <- "X";
-    gameboard.[0,2] <- "X";
-
+    gameboard.[0,0] <- "0";
     gameboard.[1,0] <- "0";
-    gameboard.[1,1] <- "0";
-    gameboard.[1,2] <- "0";
+    gameboard.[2,0] <- "0";
   
     HasFilledRow "X" gameboard boardsize
+    HasFilledColumn "0" gameboard boardsize
     HasFilledRow "0" gameboard boardsize
     HasFilledRow "" gameboard boardsize
     PrintGameboard gameboard boardsize
