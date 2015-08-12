@@ -61,3 +61,23 @@ module Tests =
         gameboard.[1, 0] <- marker
         gameboard.[2, 0] <- marker
         Game.HasFilledColumn marker gameboard boardsize |> should equal true
+
+    [<Test>]
+    let ``given a gameboard with upper left lower right diagonal filled, when checking fill, shoud be true``() = 
+        let boardsize = 3
+        let marker = "X"
+        let gameboard = Game.CreateGameboard boardsize
+        gameboard.[0, 0] <- marker
+        gameboard.[1, 1] <- marker
+        gameboard.[2, 2] <- marker
+        Game.HasFilledUpperLeftToLowerRightDiagonal marker gameboard boardsize |> should equal true
+
+    [<Test>]
+    let ``given a gameboard with upper right lower left diagonal filled, when checking fill, shoud be true``() = 
+        let boardsize = 3
+        let marker = "X"
+        let gameboard = Game.CreateGameboard boardsize
+        gameboard.[0, 2] <- marker
+        gameboard.[1, 1] <- marker
+        gameboard.[2, 0] <- marker
+        Game.HasFilledUpperRightToLowerLeftDiagonal marker gameboard boardsize |> should equal true
