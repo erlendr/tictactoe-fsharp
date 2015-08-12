@@ -109,3 +109,4 @@ module Tests =
         let gameboard = Game.CreateGameboard boardsize
         gameboard.[0, 0] <- Game.Player1.Element
         Game.MakeMove gameboard Game.Player1 4 4 |> should equal (gameboard, false)
+

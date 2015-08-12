@@ -67,3 +67,12 @@ let MakeMove (gameboard : string [,]) (player : Player) coordX coordY =
         gameboard, true
     else
         gameboard, false
+
+let IsGameWon gameboard =
+    //This could be highly optimized, lazy impl. for now...
+    let rowFilled = (HasFilledRow Player1.Element gameboard 3) || (HasFilledRow Player2.Element gameboard 3)
+    let columnFilled = (HasFilledColumn Player1.Element gameboard 3) || (HasFilledColumn Player2.Element gameboard 3)
+    let diagonal1Filled = (HasFilledUpperLeftToLowerRightDiagonal Player1.Element gameboard 3) || (HasFilledUpperLeftToLowerRightDiagonal Player2.Element gameboard 3)
+    let diagonal2Filled = (HasFilledUpperRightToLowerLeftDiagonal Player1.Element gameboard 3) || (HasFilledUpperRightToLowerLeftDiagonal Player2.Element gameboard 3)
+    
+    rowFilled || columnFilled || diagonal1Filled || diagonal2Filled
