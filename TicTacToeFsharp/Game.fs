@@ -63,6 +63,7 @@ let InputCoordinatesValid gameboard coordX coordY =
 
 let MakeMove (gameboard : string [,]) (player : Player) coordX coordY =
     if InputCoordinatesValid gameboard coordX coordY then
-        true
+        gameboard.[coordX, coordY] <- player.Element
+        gameboard, true
     else
-        false
+        gameboard, false

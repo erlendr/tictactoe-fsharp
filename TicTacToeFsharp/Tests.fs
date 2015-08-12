@@ -86,18 +86,26 @@ module Tests =
     let ``given a empty gameboard, when calling MakeMove, shoud be true``() = 
         let boardsize = 3
         let gameboard = Game.CreateGameboard boardsize
-        Game.MakeMove gameboard Game.Player1 0 0 |> should equal true
+        Game.MakeMove gameboard Game.Player1 0 0 |> should equal (gameboard, true)
 
     [<Test>]
     let ``given a gameboard with coordinate 0,0 occupied, when calling MakeMove using 0,0, should be false``() = 
         let boardsize = 3
         let gameboard = Game.CreateGameboard boardsize
         gameboard.[0, 0] <- Game.Player1.Element
-        Game.MakeMove gameboard Game.Player1 0 0 |> should equal false
+        Game.MakeMove gameboard Game.Player1 0 0 |> should equal (gameboard, false)
+
+    [<Test>]
+    let ``given a empty, when calling MakeMove using 1,1, should be true and correct data``() = 
+        let boardsize = 3
+        let gameboard = Game.CreateGameboard boardsize
+        let resultGameboard, success = Game.MakeMove gameboard Game.Player1 1 1
+        resultGameboard.[1,1] |> should equal Game.Player1.Element
+        success |> should equal true
 
     [<Test>]
     let ``given a gameboard of size 3, when calling MakeMove using 4,4, should be false``() = 
         let boardsize = 3
         let gameboard = Game.CreateGameboard boardsize
         gameboard.[0, 0] <- Game.Player1.Element
-        Game.MakeMove gameboard Game.Player1 4 4 |> should equal false
+        Game.MakeMove gameboard Game.Player1 4 4 |> should equal (gameboard, false)
