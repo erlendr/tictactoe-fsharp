@@ -54,7 +54,7 @@ let PrintGameboard gameboard boardsize =
                                                             | false -> printf " | %s" y))
 
 let InputCoordinatesValid gameboard coordX coordY =
-    let outsideBounds = (coordX > Array2D.length1 gameboard) && (coordY > Array2D.length2 gameboard)
+    let outsideBounds = (coordX >= Array2D.length1 gameboard) || (coordY >= Array2D.length2 gameboard) || (coordX < 0) || (coordY < 0)
     if not outsideBounds then
         let placeFree = not (gameboard.[coordX, coordY] <> "-")
         placeFree

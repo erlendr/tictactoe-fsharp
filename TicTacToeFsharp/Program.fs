@@ -8,26 +8,32 @@ let main argv =
     let gameboard = Game.CreateGameboard gameboardsize
 
     printfn "Tic Tac Toe"
+    printfn "-----------"
+    printfn ""
 
-    let rec gameLoop gb =
-        printf "Please input coords: "
+    let players = [Game.Player1; Game.Player2]
+
+    let rec gameLoop gb (playerList : Game.Player list) =
+        printf "Player %i: Please input coords x,y: " playerList.Head.Number
+
         let coords : string = Console.ReadLine()
         let parsedCoords = coords.Split [| ',' |]
+
         let coordX = Int32.Parse parsedCoords.[0]
         let coordY = Int32.Parse parsedCoords.[1]
 
-        let newGb, success = Game.MakeMove gb Game.Player1 coordX coordY
-        if success then
-            Game.PrintGameboard newGb 3
+        let newGameboard, moveSuccessful = Game.MakeMove gb playerList.Head coordX coordY
+        if moveSuccessful then
+            Game.PrintGameboard newGameboard 3
         else
-            printfn "Move not valid"
-            gameLoop newGb
+            printfn "Move not valid, try again."
+            gameLoop newGameboard (List.rev playerList)
 
-        if (Game.IsGameWon newGb) then
+        if (Game.IsGameWon newGameboard) then
             printfn "Game won! Press any key to exit"
             Console.Read() |> ignore
         else
-            gameLoop newGb
+            gameLoop newGameboard (List.rev playerList)
      
-    gameLoop gameboard
+    gameLoop gameboard players
     0 // return an integer exit code
