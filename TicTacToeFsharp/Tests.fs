@@ -81,3 +81,16 @@ module Tests =
         gameboard.[1, 1] <- marker
         gameboard.[2, 0] <- marker
         Game.HasFilledUpperRightToLowerLeftDiagonal marker gameboard boardsize |> should equal true
+
+    [<Test>]
+    let ``given a empty gameboard, when calling MakeMove, shoud be true``() = 
+        let boardsize = 3
+        let gameboard = Game.CreateGameboard boardsize
+        Game.MakeMove gameboard Game.Player1 0 0 |> should equal true
+
+    [<Test>]
+    let ``given a gameboard with coordinate 0,0 occupied, when calling MakeMove using 0,0, shoud be false``() = 
+        let boardsize = 3
+        let gameboard = Game.CreateGameboard boardsize
+        gameboard.[0, 0] <- Game.Player1.Element
+        Game.MakeMove gameboard Game.Player1 0 0 |> should equal false

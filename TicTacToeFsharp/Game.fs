@@ -3,6 +3,15 @@
 #else
 module Game
 #endif
+
+type Player = {
+    Number:int
+    Element:string
+}
+
+let Player1 = { Number = 1; Element = "X" }
+let Player2 = { Number = 2; Element = "0" }
+
 let CreateGameboard size = Array2D.create<string> size size "-"
 let CountElement element array = Array.filter (fun x -> x = element) array |> Array.length
 let GetRow rowNumber (gameboard : string [,]) = gameboard.[rowNumber, *]
@@ -43,3 +52,10 @@ let PrintGameboard gameboard boardsize =
                                                             match i = boardsize - 1 with
                                                             | true -> printfn " | %s |" y
                                                             | false -> printf " | %s" y))
+
+let MakeMove (gameboard : string [,]) (player : Player) coordX coordY =
+    if not (gameboard.[coordX, coordY] <> "-") then
+        
+        true
+    else
+        false
