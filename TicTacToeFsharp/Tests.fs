@@ -110,3 +110,24 @@ module Tests =
         gameboard.[0, 0] <- Game.Player1.Element
         Game.MakeMove gameboard Game.Player1 3 3 |> should equal (gameboard, false)
 
+    [<Test>]
+    let ``given a gameboard full of elements, when calling IsGameADraw, should be true``() = 
+        let boardsize = 3
+        let gameboard = Game.CreateGameboard boardsize
+        gameboard.[0, 0] <- Game.Player1.Element
+        gameboard.[0, 1] <- Game.Player1.Element
+        gameboard.[0, 2] <- Game.Player1.Element
+        gameboard.[1, 0] <- Game.Player1.Element
+        gameboard.[1, 1] <- Game.Player1.Element
+        gameboard.[1, 2] <- Game.Player1.Element
+        gameboard.[2, 0] <- Game.Player1.Element
+        gameboard.[2, 1] <- Game.Player1.Element
+        gameboard.[2, 2] <- Game.Player1.Element
+        Game.IsGameADraw gameboard |> should equal true
+
+    [<Test>]
+    let ``given a empty gameboard, when calling IsGameADraw, should be false``() = 
+        let boardsize = 3
+        let gameboard = Game.CreateGameboard boardsize
+        Game.IsGameADraw gameboard |> should equal false
+

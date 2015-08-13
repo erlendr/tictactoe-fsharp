@@ -81,3 +81,12 @@ let IsGameWon gameboard =
     let diagonal2Filled = (HasFilledUpperRightToLowerLeftDiagonal Player1.Element gameboard) || (HasFilledUpperRightToLowerLeftDiagonal Player2.Element gameboard)
     
     rowFilled || columnFilled || diagonal1Filled || diagonal2Filled
+
+let IsGameADraw gameboard =
+    let flatten (A : 'a [,]) = A |> Seq.cast<'a>
+    gameboard
+    |> Array2D.map(fun x -> x = "-")
+    |> flatten
+    |> Seq.filter (fun x -> x = true)
+    |> Seq.length
+    = 0

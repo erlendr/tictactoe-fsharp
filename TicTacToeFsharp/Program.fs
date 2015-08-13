@@ -39,11 +39,15 @@ let main argv =
             printfn "Move not valid, try again.\n"
             gameLoop newGameboard (List.rev playerList)
 
-        if (Game.IsGameWon newGameboard) then
-            printfn "\nGame won by player %i! Press any key to exit" playerList.Head.Number
+        if Game.IsGameADraw gameboard then
+            printfn "\n Game is a draw, press any key to exit"
             Console.Read() |> ignore
         else
-            gameLoop newGameboard (List.rev playerList)
+            if (Game.IsGameWon newGameboard) then
+                printfn "\nGame won by player %i! Press any key to exit" playerList.Head.Number
+                Console.Read() |> ignore
+            else
+                gameLoop newGameboard (List.rev playerList)
      
     gameLoop gameboard players
     0 // return an integer exit code
