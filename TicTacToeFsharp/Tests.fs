@@ -50,7 +50,7 @@ module Tests =
         gameboard.[0, 0] <- marker
         gameboard.[0, 1] <- marker
         gameboard.[0, 2] <- marker
-        Game.HasFilledRow marker gameboard boardsize |> should equal true
+        Game.HasFilledRow marker gameboard |> should equal true
     
     [<Test>]
     let ``given a gameboard with first column filled, when calling HasFilledColumn, shoud be true``() = 
@@ -60,7 +60,7 @@ module Tests =
         gameboard.[0, 0] <- marker
         gameboard.[1, 0] <- marker
         gameboard.[2, 0] <- marker
-        Game.HasFilledColumn marker gameboard boardsize |> should equal true
+        Game.HasFilledColumn marker gameboard |> should equal true
 
     [<Test>]
     let ``given a gameboard with upper left lower right diagonal filled, when checking fill, shoud be true``() = 
@@ -70,7 +70,7 @@ module Tests =
         gameboard.[0, 0] <- marker
         gameboard.[1, 1] <- marker
         gameboard.[2, 2] <- marker
-        Game.HasFilledUpperLeftToLowerRightDiagonal marker gameboard boardsize |> should equal true
+        Game.HasFilledUpperLeftToLowerRightDiagonal marker gameboard |> should equal true
 
     [<Test>]
     let ``given a gameboard with upper right lower left diagonal filled, when checking fill, shoud be true``() = 
@@ -80,7 +80,7 @@ module Tests =
         gameboard.[0, 2] <- marker
         gameboard.[1, 1] <- marker
         gameboard.[2, 0] <- marker
-        Game.HasFilledUpperRightToLowerLeftDiagonal marker gameboard boardsize |> should equal true
+        Game.HasFilledUpperRightToLowerLeftDiagonal marker gameboard |> should equal true
 
     [<Test>]
     let ``given a empty gameboard, when calling MakeMove, shoud be true``() = 

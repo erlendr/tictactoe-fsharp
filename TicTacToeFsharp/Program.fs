@@ -24,7 +24,7 @@ let main argv =
 
         let newGameboard, moveSuccessful = Game.MakeMove gb playerList.Head coordX coordY
         if moveSuccessful then
-            Game.PrintGameboard newGameboard 3
+            Game.PrintGameboard newGameboard
         else
             printfn "Move not valid, try again."
             gameLoop newGameboard (List.rev playerList)

@@ -16,17 +16,20 @@ let CreateGameboard size = Array2D.create<string> size size "-"
 let CountElement element array = Array.filter (fun x -> x = element) array |> Array.length
 let GetRow rowNumber (gameboard : string [,]) = gameboard.[rowNumber, *]
 let GetColumn colNumber (gameboard : string [,]) = gameboard.[*, colNumber]
-let HasFilledRow element gameboard boardsize =
+let HasFilledRow element gameboard =
+    let boardsize = Array2D.length1 gameboard
     [|0..boardsize-1|]
     |> Array.map (fun x -> GetRow x gameboard |> CountElement element = boardsize)
     |> Array.contains true
 
-let HasFilledColumn element gameboard boardsize =
+let HasFilledColumn element gameboard =
+    let boardsize = Array2D.length1 gameboard
     [|0..boardsize-1|]
     |> Array.map (fun x -> GetColumn x gameboard |> CountElement element = boardsize)
     |> Array.contains true
 
-let HasFilledUpperLeftToLowerRightDiagonal element gameboard boardsize = 
+let HasFilledUpperLeftToLowerRightDiagonal element gameboard = 
+    let boardsize = Array2D.length1 gameboard
     let flatten (A : 'a [,]) = A |> Seq.cast<'a>
     gameboard
     |> Array2D.mapi (fun i j x -> i = j && x = element)
@@ -35,7 +38,8 @@ let HasFilledUpperLeftToLowerRightDiagonal element gameboard boardsize =
     |> Seq.length
     = boardsize
 
-let HasFilledUpperRightToLowerLeftDiagonal element gameboard boardsize = 
+let HasFilledUpperRightToLowerLeftDiagonal element gameboard =
+    let boardsize = Array2D.length1 gameboard
     let flatten (A : 'a [,]) = A |> Seq.cast<'a>
     let seqX = [| 0..boardsize - 1 |]
     let seqY = Array.rev seqX
@@ -46,7 +50,8 @@ let HasFilledUpperRightToLowerLeftDiagonal element gameboard boardsize =
     |> Seq.length
     = boardsize
 
-let PrintGameboard gameboard boardsize = 
+let PrintGameboard gameboard =
+    let boardsize = Array2D.length1 gameboard 
     [| 0..boardsize - 1 |] |> Array.iter (fun x -> 
                                   GetRow x gameboard |> Array.iteri (fun i y -> 
                                                             match i = boardsize - 1 with
@@ -70,9 +75,9 @@ let MakeMove (gameboard : string [,]) (player : Player) coordX coordY =
 
 let IsGameWon gameboard =
     //This could be highly optimized, lazy impl. for now...
-    let rowFilled = (HasFilledRow Player1.Element gameboard 3) || (HasFilledRow Player2.Element gameboard 3)
-    let columnFilled = (HasFilledColumn Player1.Element gameboard 3) || (HasFilledColumn Player2.Element gameboard 3)
-    let diagonal1Filled = (HasFilledUpperLeftToLowerRightDiagonal Player1.Element gameboard 3) || (HasFilledUpperLeftToLowerRightDiagonal Player2.Element gameboard 3)
-    let diagonal2Filled = (HasFilledUpperRightToLowerLeftDiagonal Player1.Element gameboard 3) || (HasFilledUpperRightToLowerLeftDiagonal Player2.Element gameboard 3)
+    let rowFilled = (HasFilledRow Player1.Element gameboard) || (HasFilledRow Player2.Element gameboard)
+    let columnFilled = (HasFilledColumn Player1.Element gameboard) || (HasFilledColumn Player2.Element gameboard)
+    let diagonal1Filled = (HasFilledUpperLeftToLowerRightDiagonal Player1.Element gameboard) || (HasFilledUpperLeftToLowerRightDiagonal Player2.Element gameboard)
+    let diagonal2Filled = (HasFilledUpperRightToLowerLeftDiagonal Player1.Element gameboard) || (HasFilledUpperRightToLowerLeftDiagonal Player2.Element gameboard)
     
     rowFilled || columnFilled || diagonal1Filled || diagonal2Filled
