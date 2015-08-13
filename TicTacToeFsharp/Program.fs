@@ -14,23 +14,33 @@ let main argv =
     let players = [Game.Player1; Game.Player2]
 
     let rec gameLoop gb (playerList : Game.Player list) =
-        printf "Player %i: Please input coords x,y: " playerList.Head.Number
+        printf "\nPlayer %i: Please input coords x,y: " playerList.Head.Number
 
         let coords : string = Console.ReadLine()
         let parsedCoords = coords.Split [| ',' |]
 
-        let coordX = Int32.Parse parsedCoords.[0]
-        let coordY = Int32.Parse parsedCoords.[1]
+        if parsedCoords.Length < 2 then
+            printfn "Invalid format, try again.\n"
+            gameLoop gb (List.rev playerList)
+        else ()
+
+        let couldParse, coordX = Int32.TryParse parsedCoords.[0]
+        let couldParse, coordY = Int32.TryParse parsedCoords.[1]
+        if not couldParse then
+            printfn "Invalid format, try again.\n"
+            gameLoop gb (List.rev playerList)
+        else ()
 
         let newGameboard, moveSuccessful = Game.MakeMove gb playerList.Head coordX coordY
         if moveSuccessful then
+            printfn ""
             Game.PrintGameboard newGameboard
         else
-            printfn "Move not valid, try again."
+            printfn "Move not valid, try again.\n"
             gameLoop newGameboard (List.rev playerList)
 
         if (Game.IsGameWon newGameboard) then
-            printfn "Game won! Press any key to exit"
+            printfn "\nGame won by player %i! Press any key to exit" playerList.Head.Number
             Console.Read() |> ignore
         else
             gameLoop newGameboard (List.rev playerList)
